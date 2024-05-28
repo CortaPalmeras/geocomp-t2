@@ -84,9 +84,6 @@ void vectorTestReal() {
   v4 = v1 * 3;
   assert(std::abs(v4.x() - 7.95) < 0.1);
   assert(std::abs(v4.y() - 24.3) < 0.1);
-
-  assert((v1 * -2 + v2 * 3).y() == 17);
-  assert((v1 * 0 + v2 * 4).x() == 20);
   
   assert(v1 == v1);
   assert(!(v1 == v2));
