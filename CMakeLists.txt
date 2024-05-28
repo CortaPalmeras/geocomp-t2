@@ -9,9 +9,11 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_EXPORT_COMPILE_COMMANDS true)
 
 set(global_compile_options -Wall -Wextra -Werror -pedantic)
+add_compile_options(${global_compile_options})
 
 add_subdirectory(extern)
 add_subdirectory(src)
 add_subdirectory(test)
 
 enable_testing()
+
