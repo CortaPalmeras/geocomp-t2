@@ -9,69 +9,71 @@ namespace geocomp {
 
 template <typename T>
 Vector<T>::Vector(T x, T y) {
-  _x = x;
-  _y = y;
+    _x = x;
+    _y = y;
 }
 
 template <typename T>
 Vector<T>::Vector(const Punto<T> &p) {
-  _x = p.x();
-  _y = p.y();
+    _x = p.x();
+    _y = p.y();
 }
 
 template <typename T>
 T Vector<T>::x() const {
-  return _x;
+    return _x;
 }
 
 template <typename T>
 T Vector<T>::y() const {
-  return _y;
+    return _y;
 }
 
 template <typename T>
 double Vector<T>::modulo() const {
-  return std::sqrt((_x * _x + _y * _y));
+    return std::sqrt((_x * _x + _y * _y));
 }
 
 template <typename T>
 T Vector<T>::punto(const Vector<T> &otro) const {
-  return _x * otro.x() + _y * otro.y();
+    return _x * otro.x() + _y * otro.y();
 }
 
 template <typename T>
 T Vector<T>::cruz(const Vector<T> &otro) const {
-  return _x * otro.y() - _y * otro.x();
+    T a = _x * otro._y;
+    T b = otro._x * _y;
+    return a - b;
 }
 
 template <typename T>
 Vector<T> Vector<T>::operator+(const Vector<T> &otro) const {
-  return Vector<T>(_x + otro.x(), _y + otro.y());
+    return Vector<T>(_x + otro.x(), _y + otro.y());
 }
 
 template <typename T>
 Vector<T> Vector<T>::operator-(const Vector<T> &otro) const {
-  return Vector<T>(_x - otro.x(), _y - otro.y());
+    return Vector<T>(_x - otro.x(), _y - otro.y());
 }
 
 template <typename T>
 Vector<T> Vector<T>::operator*(T val) const {
-  return Vector<T>(_x * val, _y * val);
+    return Vector<T>(_x * val, _y * val);
 }
 
 template <typename T>
 bool Vector<T>::operator==(const Vector<T> &otro) const {
-  return _x == otro.x() && _y == otro.y();
+    return _x == otro.x() && _y == otro.y();
 }
 
 template <typename T>
 bool Vector<T>::operator!=(const Vector<T> &otro) const {
-  return !operator==(otro);
+    return !operator==(otro);
 }
 
 template <typename T>
 std::ostream &operator<<(std::ostream &os, const Vector<T> &v) {
-  return os << '(' << v.x() << ',' << v.y() << ')';
+    return os << '(' << v.x() << ',' << v.y() << ')';
 }
 
 template std::ostream &operator<<(std::ostream &, const Vector<int> &);
