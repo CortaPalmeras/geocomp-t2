@@ -11,7 +11,7 @@
 namespace geocomp {
 
 template <typename T>
-Poligono<T>::Poligono(std::vector<Punto<T>> &v) {
+Poligono<T>::Poligono(std::vector<Punto<T>> const &v) {
     _vert = v;
     _num_vert = _vert.size();
 }
@@ -72,7 +72,6 @@ bool Poligono<T>::es_convexo() const {
 
         x2 = it2->x() - it1->x();
         y2 = it2->y() - it1->y();
-
     }
     return true;
 }
@@ -81,7 +80,6 @@ template <typename T>
 const Punto<T> &Poligono<T>::operator[](int i) const {
     return _vert[i];
 }
-
 
 template <typename T>
 bool Poligono<T>::operator==(Poligono<T> const &otro) const {
@@ -94,7 +92,7 @@ bool Poligono<T>::operator!=(Poligono<T> const &otro) const {
 }
 
 template <typename T>
-std::ostream &operator<<(std::ostream &out, const Poligono<T> &p) {
+std::ostream &operator<<(std::ostream &out, Poligono<T> const &p) {
     out << '[' << p._vert[0];
     for (int i = 1; i < p._num_vert; i++) {
         out << ',' << p._vert[i];
@@ -103,10 +101,10 @@ std::ostream &operator<<(std::ostream &out, const Poligono<T> &p) {
     return out;
 }
 
-template std::ostream &operator<<(std::ostream &, const Poligono<int> &);
-template std::ostream &operator<<(std::ostream &, const Poligono<long> &);
-template std::ostream &operator<<(std::ostream &, const Poligono<float> &);
-template std::ostream &operator<<(std::ostream &, const Poligono<double> &);
+template std::ostream &operator<<(std::ostream &out, Poligono<int> const &p);
+template std::ostream &operator<<(std::ostream &out, Poligono<long> const &p);
+template std::ostream &operator<<(std::ostream &out, Poligono<float> const &p);
+template std::ostream &operator<<(std::ostream &out, Poligono<double> const &p);
 
 template class Poligono<int>;
 template class Poligono<long>;

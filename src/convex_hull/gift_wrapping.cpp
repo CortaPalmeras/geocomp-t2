@@ -1,48 +1,47 @@
 
 #include <vector>
-#include <algorithm>
 
+#include "poligono.hpp"
 #include "punto.hpp"
 #include "vector.hpp"
-#include "poligono.hpp"
 
 namespace geocomp {
 
-using namespace std;
-
 template <typename T>
-Poligono<T> gift_wrapping(vector< Punto<T> > const &puntos) {
-    // encontrar punto inferior
-    auto min_iter = min_element(puntos.begin(), puntos.end());
-    uint i_inferior = distance(puntos.begin(), min_iter);
+Poligono<T> gift_wrapping(std::vector<Punto<T>> const &puntos) {
 
-    // crear arreglo de vectores (por conveniencia)
-    vector< Vector<T> > vectores;
-    for (auto p: puntos) {
-        Vector<T> vec(p);
+    size_t i_inferior = 0;
+    std::vector<Vector<T>> vectores;
+
+    for (size_t i = 0; i < puntos.size(); i++) {
+        Vector<T> vec(puntos[i]);
         vectores.push_back(vec);
+
+        i_inferior = puntos[i] < puntos[i_inferior] ? i : i_inferior;
     }
 
-    vector<Punto<T>> cupula;
+    // resultado
+    std::vector<Punto<T>> cupula;
 
     // inicializar variables para iterar
-    uint i_actual = i_inferior;
-    uint i_previo;
-    
+    size_t i_actual = i_inferior;
+    size_t i_previo;
+
     // v_diff es la diferencia entre el vector previo y el actual
     // comienza como el vector unitario en x
-    Vector<T> v_diff(1, 0); 
+    Vector<T> v_diff(1, 0);
 
     do {
         cupula.push_back(puntos[i_actual]);
 
-        uint i_maximo = -1;
+        size_t i_maximo = -1;
         double cos_maximo = -1;
 
         // en cada iteracion se busca el punto que genere el mayor coseno
         // entre v_diff y el vector formado entre el punto y v_actual
-        for (uint i = 0; i < vectores.size(); i++) {
-            if (i == i_actual) continue;
+        for (size_t i = 0; i < vectores.size(); i++) {
+            if (i == i_actual)
+                continue;
 
             Vector<T> v_candidato = vectores[i] - vectores[i_actual];
             T prod_punto = v_diff.punto(v_candidato);
@@ -59,19 +58,18 @@ Poligono<T> gift_wrapping(vector< Punto<T> > const &puntos) {
             }
         }
 
-
         i_previo = i_actual;
         i_actual = i_maximo;
-        v_diff   = vectores[i_actual] - vectores[i_previo];
+        v_diff = vectores[i_actual] - vectores[i_previo];
 
     } while (i_actual != i_inferior);
 
     return {cupula};
 }
 
-template Poligono<int> gift_wrapping<int> (vector<Punto<int>> const& puntos);
-template Poligono<long> gift_wrapping<long> (vector<Punto<long>> const& puntos);
-template Poligono<float> gift_wrapping<float> (vector<Punto<float>> const& puntos);
-template Poligono<double> gift_wrapping<double> (vector<Punto<double>> const& puntos);
+template Poligono<int> gift_wrapping<int>(std::vector<Punto<int>> const &puntos);
+template Poligono<long> gift_wrapping<long>(std::vector<Punto<long>> const &puntos);
+template Poligono<float> gift_wrapping<float>(std::vector<Punto<float>> const &puntos);
+template Poligono<double> gift_wrapping<double>(std::vector<Punto<double>> const &puntos);
 
-}
+} // namespace geocomp

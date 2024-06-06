@@ -1,15 +1,15 @@
 
 #include <assert.h>
-#include <sstream>
 #include <gtest/gtest.h>
+#include <sstream>
 
 #include "punto.hpp"
+#include "vector.hpp"
 
 template <typename T>
 void punto_test_entero() {
-    std::ostringstream oss;
-
-    geocomp::Punto<T> p1(2, 4), p2(1, -6), p3(2, 4);
+    geocomp::Vector<T> v1(2, 4);
+    geocomp::Punto<T> p1(2, 4), p2(1, -6), p3(v1);
 
     EXPECT_EQ(p1.x(), 2);
     EXPECT_EQ(p1.y(), 4);
@@ -27,19 +27,19 @@ void punto_test_entero() {
     EXPECT_FALSE(p1 != p3);
 
     geocomp::Punto<T> p4(0, 4);
-    EXPECT_TRUE(p2 <  p4);
+    EXPECT_TRUE(p2 < p4);
     EXPECT_TRUE(p2 <= p4);
-    EXPECT_TRUE(p4 >  p2);
+    EXPECT_TRUE(p4 > p2);
     EXPECT_TRUE(p4 >= p2);
 
-    EXPECT_TRUE(p1 >  p4);
+    EXPECT_TRUE(p1 > p4);
     EXPECT_TRUE(p1 >= p4);
-    EXPECT_TRUE(p4 <  p1);
+    EXPECT_TRUE(p4 < p1);
     EXPECT_TRUE(p4 <= p1);
 
-    EXPECT_FALSE(p1 <  p2);
+    EXPECT_FALSE(p1 < p2);
     EXPECT_FALSE(p1 <= p2);
-    EXPECT_FALSE(p2 >  p1);
+    EXPECT_FALSE(p2 > p1);
     EXPECT_FALSE(p2 >= p1);
 
     EXPECT_FALSE(p1 < p3);
@@ -47,6 +47,7 @@ void punto_test_entero() {
     EXPECT_FALSE(p1 > p3);
     EXPECT_TRUE(p1 >= p3);
 
+    std::ostringstream oss;
     oss << p1;
     EXPECT_EQ(oss.str(), "(2,4)");
     oss.str("");
@@ -56,13 +57,13 @@ void punto_test_entero() {
 
 template <typename T>
 void punto_test_real() {
-    std::ostringstream oss;
-    geocomp::Punto<T> p1(1.53, -14.08), p2(9.5, 3.17), p3(1.53, -14.08);
+    geocomp::Vector<T> v1(1.53, -14.08);
+    geocomp::Punto<T> p1(1.53, -14.08), p2(9.5, 3.17), p3(v1);
 
-    EXPECT_LT(std::abs(p1.x() - 1.53),     0.001);
+    EXPECT_LT(std::abs(p1.x() - 1.53), 0.001);
     EXPECT_LT(std::abs(p1.y() - (-14.08)), 0.001);
-    EXPECT_LT(std::abs(p2.x() - 9.5),      0.001);
-    EXPECT_LT(std::abs(p2.y() - 3.17),     0.001);
+    EXPECT_LT(std::abs(p2.x() - 9.5), 0.001);
+    EXPECT_LT(std::abs(p2.y() - 3.17), 0.001);
 
     EXPECT_TRUE(p1 == p1);
     EXPECT_FALSE(p1 == p2);
@@ -75,25 +76,27 @@ void punto_test_real() {
     EXPECT_FALSE(p1 != p3);
 
     geocomp::Punto<T> p4(7.44, 3.17);
-    EXPECT_TRUE(p4 <  p2);
+    EXPECT_TRUE(p4 < p2);
     EXPECT_TRUE(p4 <= p2);
-    EXPECT_TRUE(p2 >  p4);
+    EXPECT_TRUE(p2 > p4);
     EXPECT_TRUE(p2 >= p4);
 
-    EXPECT_TRUE(p4 >  p1);
+    EXPECT_TRUE(p4 > p1);
     EXPECT_TRUE(p4 >= p1);
-    EXPECT_TRUE(p1 <  p4);
+    EXPECT_TRUE(p1 < p4);
     EXPECT_TRUE(p1 <= p4);
 
-    EXPECT_FALSE(p2 <  p1);
+    EXPECT_FALSE(p2 < p1);
     EXPECT_FALSE(p2 <= p1);
-    EXPECT_FALSE(p1 >  p2);
+    EXPECT_FALSE(p1 > p2);
     EXPECT_FALSE(p1 >= p2);
 
     EXPECT_FALSE(p1 < p3);
     EXPECT_TRUE(p1 <= p3);
     EXPECT_FALSE(p1 > p3);
     EXPECT_TRUE(p1 >= p3);
+
+    std::ostringstream oss;
 
     oss << p1;
     EXPECT_EQ(oss.str(), "(1.53,-14.08)");

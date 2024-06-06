@@ -1,6 +1,8 @@
 
-#include "punto.hpp"
 #include <iostream>
+
+#include "punto.hpp"
+#include "vector.hpp"
 
 namespace geocomp {
 
@@ -9,6 +11,9 @@ Punto<T>::Punto(T x, T y) : coords(x, y) {};
 
 template <typename T>
 Punto<T>::Punto() : coords(T(), T()) {}
+
+template <typename T>
+Punto<T>::Punto(const Vector<T> &v) : coords(v.x(), v.y()) {};
 
 template <typename T>
 T Punto<T>::x() const {
@@ -55,10 +60,10 @@ std::ostream &operator<<(std::ostream &os, const Punto<T> &p) {
     return os << '(' << p.x() << ',' << p.y() << ')';
 }
 
-template std::ostream &operator<<(std::ostream &, const Punto<int> &);
-template std::ostream &operator<<(std::ostream &, const Punto<long> &);
-template std::ostream &operator<<(std::ostream &, const Punto<float> &);
-template std::ostream &operator<<(std::ostream &, const Punto<double> &);
+template std::ostream &operator<<(std::ostream &out, const Punto<int> &p);
+template std::ostream &operator<<(std::ostream &out, const Punto<long> &p);
+template std::ostream &operator<<(std::ostream &out, const Punto<float> &p);
+template std::ostream &operator<<(std::ostream &out, const Punto<double> &p);
 
 template class Punto<int>;
 template class Punto<long>;

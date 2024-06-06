@@ -4,15 +4,14 @@
 
 #include <vector>
 
-#include "punto.hpp"
 #include "poligono.hpp"
+#include "punto.hpp"
 
 namespace geocomp {
 
 template <typename T>
-Poligono<T> incremental(std::vector< Punto<T> > const &puntos);
-    
-}
+Poligono<T> incremental(std::vector<Punto<T>> const &puntos);
+
+} // namespace geocomp
 
 #endif // DEBUG
-

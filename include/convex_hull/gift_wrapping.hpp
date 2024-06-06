@@ -4,15 +4,14 @@
 
 #include <vector>
 
-#include "punto.hpp"
 #include "poligono.hpp"
+#include "punto.hpp"
 
 namespace geocomp {
 
 template <typename T>
-Poligono<T> gift_wrapping(std::vector< Punto<T> > const &puntos);
-    
-}
+Poligono<T> gift_wrapping(std::vector<Punto<T>> const &puntos);
+
+} // namespace geocomp
 
 #endif // DEBUG
-

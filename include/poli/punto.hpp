@@ -3,10 +3,9 @@
 
 #include <iostream>
 
-namespace geocomp {
+#include "_declaraciones.hpp"
 
-template <typename T>
-class Punto;
+namespace geocomp {
 
 template <typename T>
 std::ostream &operator<<(std::ostream &out, const Punto<T> &p);
@@ -16,19 +15,20 @@ class Punto {
     public:
     Punto();
     Punto(T x, T y);
+    Punto(Vector<T> const &v);
 
     T x() const;
     T y() const;
 
-    bool operator==(const Punto<T> &otro) const;
-    bool operator!=(const Punto<T> &otro) const;
+    bool operator==(Punto<T> const &otro) const;
+    bool operator!=(Punto<T> const &otro) const;
 
-    bool operator<(const Punto<T> &otro) const;
-    bool operator>(const Punto<T> &otro) const;
-    bool operator<=(const Punto<T> &otro) const;
-    bool operator>=(const Punto<T> &otro) const;
+    bool operator<(Punto<T> const &otro) const;
+    bool operator>(Punto<T> const &otro) const;
+    bool operator<=(Punto<T> const &otro) const;
+    bool operator>=(Punto<T> const &otro) const;
 
-    friend std::ostream &operator<< <T>(std::ostream &out, const Punto<T> &p);
+    friend std::ostream &operator<< <T>(std::ostream &out, Punto<T> const &p);
 
     private:
     std::pair<T, T> coords;
@@ -36,4 +36,3 @@ class Punto {
 } // namespace geocomp
 
 #endif // GC_PUNTO_H
-

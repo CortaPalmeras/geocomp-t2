@@ -72,14 +72,34 @@ bool Vector<T>::operator!=(const Vector<T> &otro) const {
 }
 
 template <typename T>
+bool Vector<T>::operator<(const Vector<T> &otro) const {
+    return y() < otro.y() || (y() == otro.y() && x() < otro.x());
+}
+
+template <typename T>
+bool Vector<T>::operator<=(const Vector<T> &otro) const {
+    return y() < otro.y() || (y() == otro.y() && x() <= otro.x());
+}
+
+template <typename T>
+bool Vector<T>::operator>(const Vector<T> &otro) const {
+    return y() > otro.y() || (y() == otro.y() && x() > otro.x());
+}
+
+template <typename T>
+bool Vector<T>::operator>=(const Vector<T> &otro) const {
+    return y() > otro.y() || (y() == otro.y() && x() >= otro.x());
+}
+
+template <typename T>
 std::ostream &operator<<(std::ostream &os, const Vector<T> &v) {
     return os << '(' << v.x() << ',' << v.y() << ')';
 }
 
-template std::ostream &operator<<(std::ostream &, const Vector<int> &);
-template std::ostream &operator<<(std::ostream &, const Vector<long> &);
-template std::ostream &operator<<(std::ostream &, const Vector<float> &);
-template std::ostream &operator<<(std::ostream &, const Vector<double> &);
+template std::ostream &operator<<(std::ostream &out, const Vector<int> &p);
+template std::ostream &operator<<(std::ostream &out, const Vector<long> &p);
+template std::ostream &operator<<(std::ostream &out, const Vector<float> &p);
+template std::ostream &operator<<(std::ostream &out, const Vector<double> &p);
 
 template class Vector<int>;
 template class Vector<long>;

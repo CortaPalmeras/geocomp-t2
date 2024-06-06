@@ -1,14 +1,14 @@
-#include <vector>
 #include <iostream>
+#include <vector>
 
 using namespace std;
 
 class cosito {
-private:
+    private:
     int num;
     bool state;
 
-public:
+    public:
     cosito() {
         num = 0;
         state = false;
@@ -55,12 +55,9 @@ vector<cosito> crear(int num) {
         return b;
 }
 
-int main(int argc, char**) {
+int main(int argc, char **) {
     cout << "funcion llamada" << endl;
     vector<cosito> v = crear(argc);
     cout << "funcion finalizada" << endl;
     return 0;
 }
-
-
-
