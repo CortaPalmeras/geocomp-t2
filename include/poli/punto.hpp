@@ -1,5 +1,5 @@
-#ifndef GC_PUNTO_H
-#define GC_PUNTO_H
+#ifndef GC_PUNTO_HPP
+#define GC_PUNTO_HPP
 
 #include <iostream>
 
@@ -12,7 +12,7 @@ std::ostream &operator<<(std::ostream &out, const Punto<T> &p);
 
 template <typename T>
 class Punto {
-    public:
+public:
     Punto();
     Punto(T x, T y);
     Punto(Vector<T> const &v);
@@ -30,9 +30,9 @@ class Punto {
 
     friend std::ostream &operator<< <T>(std::ostream &out, Punto<T> const &p);
 
-    private:
+private:
     std::pair<T, T> coords;
 };
 } // namespace geocomp
 
-#endif // GC_PUNTO_H
+#endif // !GC_PUNTO_HPP

@@ -1,5 +1,5 @@
-#ifndef GC_VECTOR_H
-#define GC_VECTOR_H
+#ifndef GC_VECTOR_HPP
+#define GC_VECTOR_HPP
 
 #include <iostream>
 
@@ -12,7 +12,7 @@ std::ostream &operator<<(std::ostream &out, Vector<T> const &v);
 
 template <typename T>
 class Vector {
-    public:
+public:
     Vector(T x, T y);
     Vector(const Punto<T> &p);
 
@@ -38,10 +38,10 @@ class Vector {
 
     friend std::ostream &operator<< <T>(std::ostream &out, Vector<T> const &v);
 
-    private:
+private:
     T _x, _y;
 };
 
 } // namespace geocomp
 
-#endif // GC_VECTOR_H
+#endif // !GC_VECTOR_HPP

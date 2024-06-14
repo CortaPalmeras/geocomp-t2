@@ -1,76 +1,236 @@
 
-#include <cmath>
-#include <random>
 #include <gtest/gtest.h>
+#include <random>
 
+#include "convex_hull_test.hpp"
 #include "gift_wrapping.hpp"
 #include "poligono.hpp"
 #include "punto.hpp"
 
+using int_dist = std::uniform_int_distribution<int>;
+using long_dist = std::uniform_int_distribution<long>;
+using float_dist = std::uniform_real_distribution<float>;
+using double_dist = std::uniform_real_distribution<double>;
+
 using namespace geocomp;
 
-#define GWRAP_TEST_RNG_SEED 59
-std::mt19937 rng(GWRAP_TEST_RNG_SEED);
+// Int
+TEST(GiftWrappingInt, Rectangulo) {
+    vector<Punto<int>> puntos = conjunto_prueba_rectangulo<int, int_dist>(-1, 1, -1, 1, 10000);
+    Poligono<int> cupula = gift_wrapping(puntos);
+    Poligono<int> esperado = resultado_esperado_rectangulo<int>(-1, 1, -1, 1);
 
-TEST(gift_wrapping_test, cubo_con_puntos_en_aristas) {
-    std::vector<Punto<float>> puntos;
-    std::uniform_real_distribution<float> dist_cuadrado(-1, 1);
+    EXPECT_EQ(cupula, esperado);
+    EXPECT_TRUE(cupula.es_ccw());
+    EXPECT_TRUE(cupula.es_convexo());
 
-    for (int i = 0; i < 10000; i++) {
-        Punto<float> p(dist_cuadrado(rng), dist_cuadrado(rng));
-        puntos.push_back(p);
-    }
+    puntos = conjunto_prueba_rectangulo<int, int_dist>(-19, -4, -5, 8, 10000);
+    cupula = gift_wrapping(puntos);
+    esperado = resultado_esperado_rectangulo<int>(-19, -4, -5, 8);
 
-    Punto<float> esquina_ii(-1, -1);
-    puntos[10] = esquina_ii;
-
-    Punto<float> dummy_inf(0, -1);
-    puntos[20] = dummy_inf;
-
-    Punto<float> esquina_id(1, -1);
-    puntos[30] = esquina_id;
-
-    Punto<float> dummy_der(1, 0);
-    puntos[40] = dummy_der;
-
-    Punto<float> esquina_sd(1, 1);
-    puntos[50] = esquina_sd;
-
-    Punto<float> dummy_sup(0, 1);
-    puntos[60] = dummy_sup;
-
-    Punto<float> esquina_si(-1, 1);
-    puntos[70] = esquina_si;
-
-    Punto<float> dummy_izq(-1, 0);
-    puntos[80] = dummy_izq;
-
-    std::vector<Punto<float>> puntos_esperados({esquina_ii, esquina_id, esquina_sd, esquina_si});
-    Poligono<float> res_esperado(puntos_esperados);
-
-    Poligono<float> resultado = gift_wrapping(puntos);
-
-    EXPECT_TRUE(resultado.es_ccw());
-    EXPECT_TRUE(resultado.es_convexo());
-    EXPECT_EQ(resultado, res_esperado);
+    EXPECT_EQ(cupula, esperado);
+    EXPECT_TRUE(cupula.es_ccw());
+    EXPECT_TRUE(cupula.es_convexo());
 }
 
-TEST(gift_wrapping_test, robustez) {
-    std::vector<Punto<float>> puntos;
-    std::normal_distribution<float> dist_radio(0, 5);
-    std::uniform_real_distribution<float> dist_angulo(0, 2.5);
 
-    for (int i = 0; i < 10000; i++) {
-        float r = dist_radio(rng);
-        float a = dist_angulo(rng);
-        float c = cos(a);
-        float s = sin(a);
-        Punto<float> p(r * c, r * s);
-        puntos.push_back(p);
-    }
+TEST(GiftWrappingInt, Cruz) {
+    vector<Punto<int>> puntos = conjunto_prueba_cruz<int, int_dist>(5, 5, 2, 10000);
+    Poligono<int> cupula = gift_wrapping(puntos);
+    Poligono<int> esperado = resultado_esperado_cruz<int>(5, 5, 2);
 
-    Poligono<float> resultado = gift_wrapping(puntos);
+    EXPECT_EQ(cupula, esperado);
+    EXPECT_TRUE(cupula.es_ccw());
+    EXPECT_TRUE(cupula.es_convexo());
 
-    EXPECT_TRUE(resultado.es_ccw());
-    EXPECT_TRUE(resultado.es_convexo());
+    puntos = conjunto_prueba_cruz<int, int_dist>(10, 20, 1, 10000);
+    cupula = gift_wrapping(puntos);
+    esperado = resultado_esperado_cruz<int>(10, 20, 1);
+
+    EXPECT_EQ(cupula, esperado);
+    EXPECT_TRUE(cupula.es_ccw());
+    EXPECT_TRUE(cupula.es_convexo());
 }
+
+TEST(GiftWrappingInt, Random) {
+    vector<Punto<int>> puntos = conjunto_prueba_random<int, int_dist>(-1000, 1000, 10000);
+    Poligono<int> cupula = gift_wrapping(puntos);
+
+    EXPECT_TRUE(cupula.es_ccw());
+    EXPECT_TRUE(cupula.es_convexo());
+}
+
+// Long
+TEST(GiftWrappingLong, Rectangulo) {
+    vector<Punto<long>> puntos = conjunto_prueba_rectangulo<long, long_dist>(-1, 1, -1, 1, 10000);
+    Poligono<long> cupula = gift_wrapping(puntos);
+    Poligono<long> esperado = resultado_esperado_rectangulo<long>(-1, 1, -1, 1);
+
+    EXPECT_EQ(cupula, esperado);
+    EXPECT_TRUE(cupula.es_ccw());
+    EXPECT_TRUE(cupula.es_convexo());
+
+    puntos = conjunto_prueba_rectangulo<long, long_dist>(-19, -4, -5, 8, 10000);
+    cupula = gift_wrapping(puntos);
+    esperado = resultado_esperado_rectangulo<long>(-19, -4, -5, 8);
+
+    EXPECT_EQ(cupula, esperado);
+    EXPECT_TRUE(cupula.es_ccw());
+    EXPECT_TRUE(cupula.es_convexo());
+}
+
+
+TEST(GiftWrappingLong, Cruz) {
+    vector<Punto<long>> puntos = conjunto_prueba_cruz<long, long_dist>(5, 5, 2, 10000);
+    Poligono<long> cupula = gift_wrapping(puntos);
+    Poligono<long> esperado = resultado_esperado_cruz<long>(5, 5, 2);
+
+    EXPECT_EQ(cupula, esperado);
+    EXPECT_TRUE(cupula.es_ccw());
+    EXPECT_TRUE(cupula.es_convexo());
+
+    puntos = conjunto_prueba_cruz<long, long_dist>(10, 20, 1, 10000);
+    cupula = gift_wrapping(puntos);
+    esperado = resultado_esperado_cruz<long>(10, 20, 1);
+
+    EXPECT_EQ(cupula, esperado);
+    EXPECT_TRUE(cupula.es_ccw());
+    EXPECT_TRUE(cupula.es_convexo());
+}
+
+TEST(GiftWrappingLong, Random) {
+    vector<Punto<long>> puntos = conjunto_prueba_random<long, long_dist>(-1000, 1000, 10000);
+    Poligono<long> cupula = gift_wrapping(puntos);
+
+    EXPECT_TRUE(cupula.es_ccw());
+    EXPECT_TRUE(cupula.es_convexo());
+}
+
+// Float
+TEST(GiftWrappingFloat, Rectangulo) {
+    vector<Punto<float>> puntos = conjunto_prueba_rectangulo<float, float_dist>(-1, 1, -1, 1, 10000);
+    Poligono<float> cupula = gift_wrapping(puntos);
+    Poligono<float> esperado = resultado_esperado_rectangulo<float>(-1, 1, -1, 1);
+
+    EXPECT_EQ(cupula, esperado);
+    EXPECT_TRUE(cupula.es_ccw());
+    EXPECT_TRUE(cupula.es_convexo());
+
+    puntos = conjunto_prueba_rectangulo<float, float_dist>(-19, -4, -5, 8, 10000);
+    cupula = gift_wrapping(puntos);
+    esperado = resultado_esperado_rectangulo<float>(-19, -4, -5, 8);
+
+    EXPECT_EQ(cupula, esperado);
+    EXPECT_TRUE(cupula.es_ccw());
+    EXPECT_TRUE(cupula.es_convexo());
+}
+
+
+TEST(GiftWrappingFloat, Cruz) {
+    vector<Punto<float>> puntos = conjunto_prueba_cruz<float, float_dist>(5, 5, 2, 10000);
+    Poligono<float> cupula = gift_wrapping(puntos);
+    Poligono<float> esperado = resultado_esperado_cruz<float>(5, 5, 2);
+
+    EXPECT_EQ(cupula, esperado);
+    EXPECT_TRUE(cupula.es_ccw());
+    EXPECT_TRUE(cupula.es_convexo());
+
+    puntos = conjunto_prueba_cruz<float, float_dist>(10, 20, 1, 10000);
+    cupula = gift_wrapping(puntos);
+    esperado = resultado_esperado_cruz<float>(10, 20, 1);
+
+    EXPECT_EQ(cupula, esperado);
+    EXPECT_TRUE(cupula.es_ccw());
+    EXPECT_TRUE(cupula.es_convexo());
+}
+
+TEST(GiftWrappingFloat, Random) {
+    vector<Punto<float>> puntos = conjunto_prueba_random<float, float_dist>(-1000, 1000, 10000);
+    Poligono<float> cupula = gift_wrapping(puntos);
+
+    EXPECT_TRUE(cupula.es_ccw());
+    EXPECT_TRUE(cupula.es_convexo());
+}
+
+TEST(GiftWrappingFloat, Radial) {
+    vector<Punto<float>> puntos = conjunto_prueba_radial<float, float_dist>(5, 100, 10000);
+    Poligono<float> cupula = gift_wrapping(puntos);
+    Poligono<float> esperado = resultado_esperado_radial<float>(5, 100);
+
+    EXPECT_EQ(cupula, esperado);
+    EXPECT_TRUE(cupula.es_ccw());
+    EXPECT_TRUE(cupula.es_convexo());
+
+    puntos = conjunto_prueba_radial<float, float_dist>(3, 10, 10000);
+    cupula = gift_wrapping(puntos);
+    esperado = resultado_esperado_radial<float>(3, 10);
+
+    EXPECT_EQ(cupula, esperado);
+    EXPECT_TRUE(cupula.es_ccw());
+    EXPECT_TRUE(cupula.es_convexo());
+}
+
+// Double
+TEST(GiftWrappingDouble, Rectangulo) {
+    vector<Punto<double>> puntos = conjunto_prueba_rectangulo<double, double_dist>(-1, 1, -1, 1, 10000);
+    Poligono<double> cupula = gift_wrapping(puntos);
+    Poligono<double> esperado = resultado_esperado_rectangulo<double>(-1, 1, -1, 1);
+
+    EXPECT_EQ(cupula, esperado);
+    EXPECT_TRUE(cupula.es_ccw());
+    EXPECT_TRUE(cupula.es_convexo());
+
+    puntos = conjunto_prueba_rectangulo<double, double_dist>(-19, -4, -5, 8, 10000);
+    cupula = gift_wrapping(puntos);
+    esperado = resultado_esperado_rectangulo<double>(-19, -4, -5, 8);
+
+    EXPECT_EQ(cupula, esperado);
+    EXPECT_TRUE(cupula.es_ccw());
+    EXPECT_TRUE(cupula.es_convexo());
+}
+
+
+TEST(GiftWrappingDouble, Cruz) {
+    vector<Punto<double>> puntos = conjunto_prueba_cruz<double, double_dist>(5, 5, 2, 10000);
+    Poligono<double> cupula = gift_wrapping(puntos);
+    Poligono<double> esperado = resultado_esperado_cruz<double>(5, 5, 2);
+
+    EXPECT_EQ(cupula, esperado);
+    EXPECT_TRUE(cupula.es_ccw());
+    EXPECT_TRUE(cupula.es_convexo());
+
+    puntos = conjunto_prueba_cruz<double, double_dist>(10, 20, 1, 10000);
+    cupula = gift_wrapping(puntos);
+    esperado = resultado_esperado_cruz<double>(10, 20, 1);
+
+    EXPECT_EQ(cupula, esperado);
+    EXPECT_TRUE(cupula.es_ccw());
+    EXPECT_TRUE(cupula.es_convexo());
+}
+
+TEST(GiftWrappingDouble, Random) {
+    vector<Punto<double>> puntos = conjunto_prueba_random<double, double_dist>(-1000, 1000, 10000);
+    Poligono<double> cupula = gift_wrapping(puntos);
+
+    EXPECT_TRUE(cupula.es_ccw());
+    EXPECT_TRUE(cupula.es_convexo());
+}
+
+TEST(GiftWrappingDouble, Radial) {
+    vector<Punto<double>> puntos = conjunto_prueba_radial<double, double_dist>(5, 100, 10000);
+    Poligono<double> cupula = gift_wrapping(puntos);
+    Poligono<double> esperado = resultado_esperado_radial<double>(5, 100);
+
+    EXPECT_EQ(cupula, esperado);
+    EXPECT_TRUE(cupula.es_ccw());
+    EXPECT_TRUE(cupula.es_convexo());
+
+    puntos = conjunto_prueba_radial<double, double_dist>(3, 10, 10000);
+    cupula = gift_wrapping(puntos);
+    esperado = resultado_esperado_radial<double>(3, 10);
+
+    EXPECT_EQ(cupula, esperado);
+    EXPECT_TRUE(cupula.es_ccw());
+    EXPECT_TRUE(cupula.es_convexo());
+}
+

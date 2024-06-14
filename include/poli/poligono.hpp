@@ -1,5 +1,5 @@
-#ifndef GC_POLIGONO_H
-#define GC_POLIGONO_H
+#ifndef GC_POLIGONO_HPP
+#define GC_POLIGONO_HPP
 
 #include <iostream>
 #include <vector>
@@ -13,7 +13,7 @@ std::ostream &operator<<(std::ostream &out, Poligono<T> const &p);
 
 template <typename T>
 class Poligono {
-    public:
+public:
     Poligono(std::vector<Punto<T>> const &v);
 
     int n_vertices() const;
@@ -28,11 +28,11 @@ class Poligono {
 
     friend std::ostream &operator<< <T>(std::ostream &out, Poligono<T> const &p);
 
-    private:
+private:
     std::vector<Punto<T>> _vert;
 
     int _num_vert;
 };
 } // namespace geocomp
 
-#endif // !GC_POLIGONO_H
+#endif // !GC_POLIGONO_HPP

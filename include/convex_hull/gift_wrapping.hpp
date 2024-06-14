@@ -1,6 +1,6 @@
 
-#ifndef GC_GIFT_WRAPING_H
-#define GC_GIFT_WRAPING_H
+#ifndef GC_GIFT_WRAPING_HPP
+#define GC_GIFT_WRAPING_HPP
 
 #include <vector>
 
@@ -14,4 +14,4 @@ Poligono<T> gift_wrapping(std::vector<Punto<T>> const &puntos);
 
 } // namespace geocomp
 
-#endif // DEBUG
+#endif // !GC_GIFT_WRAPING_HPP

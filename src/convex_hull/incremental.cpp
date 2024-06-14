@@ -4,15 +4,15 @@
 #include <vector>
 
 #include "poligono.hpp"
-#include "vector.hpp"
 #include "punto.hpp"
+#include "vector.hpp"
 
 namespace geocomp {
 
 template <typename T>
 Poligono<T> incremental(std::vector<Punto<T>> const &puntos) {
     size_t n = puntos.size();
-    
+
     if (n <= 3) {
         return {puntos};
     }
@@ -34,15 +34,14 @@ Poligono<T> incremental(std::vector<Punto<T>> const &puntos) {
     cupula_der.push_back(vectores[0] - unit_x);
     cupula_der.push_back(vectores[0]);
 
-    
     for (auto it = vectores.begin() + 1; it != vectores.end(); it++) {
         while (1) {
             auto ult = cupula_der.end() - 1;
 
-            Vector<T> actual = *ult - *(ult-1);
-            Vector<T> siguiente = *it - *(ult-1);
+            Vector<T> actual = *ult - *(ult - 1);
+            Vector<T> siguiente = *it - *(ult - 1);
 
-            if (actual.cruz(siguiente) > 0 || cupula_der.size() < 2) {
+            if (actual.cruz(siguiente) > 0 || cupula_der.size() <= 2) {
                 break;
             } else {
                 cupula_der.pop_back();
@@ -54,17 +53,17 @@ Poligono<T> incremental(std::vector<Punto<T>> const &puntos) {
     cupula_der.pop_front();
 
     std::deque<Vector<T>> cupula_izq;
-    cupula_izq.push_back(vectores[n-1] + unit_x);
-    cupula_izq.push_back(vectores[n-1]);
+    cupula_izq.push_back(vectores[n - 1] + unit_x);
+    cupula_izq.push_back(vectores[n - 1]);
 
-    for (auto it = vectores.end() - 2; it != vectores.begin(); it--) {
+    for (auto it = vectores.rbegin() + 1; it != vectores.rend(); ++it) {
         while (true) {
             auto ult = cupula_izq.end() - 1;
 
-            Vector<T> actual = *ult - *(ult-1);
-            Vector<T> siguiente = *it - *(ult-1);
+            Vector<T> actual = *ult - *(ult - 1);
+            Vector<T> siguiente = *it - *(ult - 1);
 
-            if (actual.cruz(siguiente) > 0 || cupula_izq.size() < 2) {
+            if (actual.cruz(siguiente) > 0 || cupula_izq.size() <= 2) {
                 break;
             } else {
                 cupula_izq.pop_back();
@@ -74,15 +73,17 @@ Poligono<T> incremental(std::vector<Punto<T>> const &puntos) {
     }
 
     cupula_izq.pop_front();
+    cupula_izq.pop_front();
+    cupula_izq.pop_back();
 
     std::vector<Punto<T>> cupula;
-    cupula.reserve(cupula_izq.size() + cupula_der.size());
+    cupula.reserve(cupula_der.size() + cupula_izq.size());
 
-    for (const auto &v : cupula_izq) {
+    for (const auto &v : cupula_der) {
         cupula.emplace_back(v);
     }
-    
-    for (const auto &v : cupula_der) {
+
+    for (const auto &v : cupula_izq) {
         cupula.emplace_back(v);
     }
 

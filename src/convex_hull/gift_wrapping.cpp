@@ -9,21 +9,20 @@ namespace geocomp {
 
 template <typename T>
 Poligono<T> gift_wrapping(std::vector<Punto<T>> const &puntos) {
-
+    size_t n = puntos.size();
     size_t i_inferior = 0;
-    std::vector<Vector<T>> vectores;
 
-    for (size_t i = 0; i < puntos.size(); i++) {
-        Vector<T> vec(puntos[i]);
-        vectores.push_back(vec);
+    std::vector<Vector<T>> vectores;
+    vectores.reserve(n);
+
+    for (size_t i = 0; i < n; i++) {
+        vectores.emplace_back(puntos[i]);
 
         i_inferior = puntos[i] < puntos[i_inferior] ? i : i_inferior;
     }
 
-    // resultado
     std::vector<Punto<T>> cupula;
 
-    // inicializar variables para iterar
     size_t i_actual = i_inferior;
     size_t i_previo;
 
@@ -39,7 +38,7 @@ Poligono<T> gift_wrapping(std::vector<Punto<T>> const &puntos) {
 
         // en cada iteracion se busca el punto que genere el mayor coseno
         // entre v_diff y el vector formado entre el punto y v_actual
-        for (size_t i = 0; i < vectores.size(); i++) {
+        for (size_t i = 0; i < n; i++) {
             if (i == i_actual)
                 continue;
 

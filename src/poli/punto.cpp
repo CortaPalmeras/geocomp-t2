@@ -7,13 +7,13 @@
 namespace geocomp {
 
 template <typename T>
-Punto<T>::Punto(T x, T y) : coords(x, y) {};
+Punto<T>::Punto(T x, T y) : coords(x, y){};
 
 template <typename T>
 Punto<T>::Punto() : coords(T(), T()) {}
 
 template <typename T>
-Punto<T>::Punto(const Vector<T> &v) : coords(v.x(), v.y()) {};
+Punto<T>::Punto(const Vector<T> &v) : coords(v.x(), v.y()){};
 
 template <typename T>
 T Punto<T>::x() const {
