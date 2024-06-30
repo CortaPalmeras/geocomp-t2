@@ -2,33 +2,30 @@
 #define CONVEX_HULL_TEST_HPP
 
 #include <gtest/gtest.h>
-#include <algorithm>
 #include <random>
 #include <vector>
-#include <cmath>
 
 #include "poligono.hpp"
-#include "punto.hpp"
 
-const int TEST_SEED = 129391;
+extern std::mt19937 test_rng;
 
-namespace geocomp {
-using std::vector, std::pair;
+using int_dist = std::uniform_int_distribution<int>;
+using long_dist = std::uniform_int_distribution<long>;
+using float_dist = std::uniform_real_distribution<float>;
+using double_dist = std::uniform_real_distribution<double>;
 
 template <typename T, typename dist_t>
-vector<Punto<T>> conjunto_prueba_rectangulo(T in, T su, T iz, T de, int n_puntos) {
-    std::default_random_engine rng(TEST_SEED);
-
+std::vector<geocomp::Punto<T>> conjunto_prueba_rectangulo(T in, T su, T iz, T de, int n_puntos) {
     dist_t dist_x(iz, de);
     dist_t dist_y(in, su);
 
-    vector<Punto<T>> puntos;
+    std::vector<geocomp::Punto<T>> puntos;
     puntos.reserve(n_puntos);
 
     T cx = (de + iz) / 2;
     T cy = (su + in) / 2;
 
-    vector<Punto<T>> puntos_predefinidos = {
+    std::vector<geocomp::Punto<T>> puntos_predefinidos = {
         {iz, in}, // esquina izquierda inferior
         {iz, su}, // esquina izquierda superior
         {de, in}, // esquina derecha inferior
@@ -44,16 +41,16 @@ vector<Punto<T>> conjunto_prueba_rectangulo(T in, T su, T iz, T de, int n_puntos
     }
 
     for (int i = 8; i < n_puntos; ++i) {
-        puntos.emplace_back(dist_x(rng), dist_y(rng));
+        puntos.emplace_back(dist_x(test_rng), dist_y(test_rng));
     }
 
-    std::shuffle(puntos.begin(), puntos.end(), rng);
+    std::shuffle(puntos.begin(), puntos.end(), test_rng);
 
     return puntos;
 }
 
 template <typename T>
-Poligono<T> resultado_esperado_rectangulo(T in, T su, T iz, T de) {
+geocomp::Poligono<T> resultado_esperado_rectangulo(T in, T su, T iz, T de) {
     return {{
         {iz, in}, // esquina izquierda inferior
         {de, in}, // esquina derecha inferior
@@ -62,27 +59,18 @@ Poligono<T> resultado_esperado_rectangulo(T in, T su, T iz, T de) {
     }};
 }
 
-
 template <typename T, typename dist_t>
-vector<Punto<T>> conjunto_prueba_cruz(T alto, T largo, T ancho, int n_puntos) {
-    std::default_random_engine rng(TEST_SEED);
-
+std::vector<geocomp::Punto<T>> conjunto_prueba_cruz(T alto, T largo, T ancho, int n_puntos) {
     dist_t dist_alto(-alto, alto);
     dist_t dist_largo(-largo, largo);
     dist_t dist_ancho(-ancho, ancho);
 
-    vector<Punto<T>> puntos;
+    std::vector<geocomp::Punto<T>> puntos;
     puntos.reserve(n_puntos);
 
-    vector<Punto<T>> puntos_predefinidos = {
-        {-ancho, -alto },
-        { ancho, -alto },
-        { largo, -ancho},
-        { largo,  ancho},
-        { ancho,  alto },
-        {-ancho,  alto },
-        {-largo,  ancho},
-        {-largo, -ancho},
+    std::vector<geocomp::Punto<T>> puntos_predefinidos = {
+        {-ancho, -alto}, {ancho, -alto}, {largo, -ancho}, {largo, ancho},
+        {ancho, alto},   {-ancho, alto}, {-largo, ancho}, {-largo, -ancho},
     };
 
     for (int i = 0; i < 8; ++i) {
@@ -92,54 +80,50 @@ vector<Punto<T>> conjunto_prueba_cruz(T alto, T largo, T ancho, int n_puntos) {
     int mitad_puntos = n_puntos / 2;
 
     for (int i = 8; i < mitad_puntos; ++i) {
-        puntos.emplace_back(dist_ancho(rng), dist_alto(rng));
+        puntos.emplace_back(dist_ancho(test_rng), dist_alto(test_rng));
     }
 
     for (int i = mitad_puntos; i < n_puntos; ++i) {
-        puntos.emplace_back(dist_largo(rng), dist_ancho(rng));
+        puntos.emplace_back(dist_largo(test_rng), dist_ancho(test_rng));
     }
 
-    std::shuffle(puntos.begin(), puntos.end(), rng);
+    std::shuffle(puntos.begin(), puntos.end(), test_rng);
 
     return puntos;
 }
 
 template <typename T>
-Poligono<T> resultado_esperado_cruz(T alto, T largo, T ancho) {
+geocomp::Poligono<T> resultado_esperado_cruz(T alto, T largo, T ancho) {
     return {{
-        {-ancho, -alto },
-        { ancho, -alto },
-        { largo, -ancho},
-        { largo,  ancho},
-        { ancho,  alto },
-        {-ancho,  alto },
-        {-largo,  ancho},
+        {-ancho, -alto},
+        {ancho, -alto},
+        {largo, -ancho},
+        {largo, ancho},
+        {ancho, alto},
+        {-ancho, alto},
+        {-largo, ancho},
         {-largo, -ancho},
     }};
 }
 
 template <typename T, typename dist_t>
-vector<Punto<T>> conjunto_prueba_random(T a, T b, int n_puntos) {
-    std::default_random_engine rng(TEST_SEED);
-
+std::vector<geocomp::Punto<T>> conjunto_prueba_random(T a, T b, int n_puntos) {
     dist_t dist(a, b);
 
     std::vector<geocomp::Punto<T>> puntos;
     puntos.reserve(n_puntos);
 
     for (int i = 0; i < n_puntos; ++i) {
-        puntos.emplace_back(dist(rng), dist(rng));
+        puntos.emplace_back(dist(test_rng), dist(test_rng));
     }
 
     return puntos;
 }
 
 template <typename T, typename dist_t>
-vector<Punto<T>> conjunto_prueba_radial(T radio, int n_cupula, int n_internos) {
-    std::default_random_engine rng(TEST_SEED);
-
+std::vector<geocomp::Punto<T>> conjunto_prueba_radial(T radio, int n_cupula, int n_internos) {
     double dos_pi = 6.28318530718;
-    double step = (dos_pi) / n_cupula;
+    double step = dos_pi / (double)n_cupula;
     T r_cupula = radio + 1;
 
     std::uniform_real_distribution<double> dist_angulo(0, dos_pi);
@@ -156,22 +140,22 @@ vector<Punto<T>> conjunto_prueba_radial(T radio, int n_cupula, int n_internos) {
     }
 
     for (int i = 0; i < n_internos; ++i) {
-        T r = dist_radio(rng);
-        T a = dist_angulo(rng);
+        T r = dist_radio(test_rng);
+        T a = dist_angulo(test_rng);
         T c = cos(a);
         T s = sin(a);
         puntos.emplace_back(r * c, r * s);
     }
 
-    std::shuffle(puntos.begin(), puntos.end(), rng);
+    std::shuffle(puntos.begin(), puntos.end(), test_rng);
 
     return puntos;
 }
 
 template <typename T>
-Poligono<T> resultado_esperado_radial(T radio, int n_cupula) {
+geocomp::Poligono<T> resultado_esperado_radial(T radio, int n_cupula) {
     double dos_pi = 6.28318530718;
-    double step = (dos_pi) / n_cupula;
+    double step = dos_pi / (double)n_cupula;
     T r_cupula = radio + 1;
 
     std::uniform_real_distribution<double> dist_angulo(0, dos_pi);
@@ -188,7 +172,5 @@ Poligono<T> resultado_esperado_radial(T radio, int n_cupula) {
 
     return {puntos};
 }
-
-} // namespace geocomp
 
 #endif // !CONVEX_HULL_TEST_HPP

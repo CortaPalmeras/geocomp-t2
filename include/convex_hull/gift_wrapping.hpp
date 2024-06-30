@@ -10,7 +10,7 @@
 namespace geocomp {
 
 template <typename T>
-Poligono<T> gift_wrapping(std::vector<Punto<T>> const &puntos);
+Poligono<T> gift_wrapping(const std::vector<Punto<T>>& puntos);
 
 } // namespace geocomp
 

@@ -4,29 +4,29 @@
 #include <iostream>
 #include <vector>
 
-#include "_declaraciones.hpp"
+#include "_nombres.hpp"
 
 namespace geocomp {
 
 template <typename T>
-std::ostream &operator<<(std::ostream &out, Poligono<T> const &p);
+std::ostream& operator<<(std::ostream& out, const Poligono<T>& p);
 
 template <typename T>
 class Poligono {
 public:
-    Poligono(std::vector<Punto<T>> const &v);
+    Poligono(const std::vector<Punto<T>>& v);
 
     int n_vertices() const;
 
     bool es_ccw() const;
     bool es_convexo() const;
 
-    const Punto<T> &operator[](int i) const;
+    const Punto<T>& operator[](int i) const;
 
-    bool operator==(Poligono<T> const &otro) const;
-    bool operator!=(Poligono<T> const &otro) const;
+    bool operator==(const Poligono<T>& otro) const;
+    bool operator!=(const Poligono<T>& otro) const;
 
-    friend std::ostream &operator<< <T>(std::ostream &out, Poligono<T> const &p);
+    friend std::ostream& operator<< <T>(std::ostream& out, const Poligono<T>& p);
 
 private:
     std::vector<Punto<T>> _vert;

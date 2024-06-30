@@ -14,7 +14,7 @@ Vector<T>::Vector(T x, T y) {
 }
 
 template <typename T>
-Vector<T>::Vector(const Punto<T> &p) {
+Vector<T>::Vector(const Punto<T>& p) {
     _x = p.x();
     _y = p.y();
 }
@@ -35,24 +35,24 @@ double Vector<T>::modulo() const {
 }
 
 template <typename T>
-T Vector<T>::punto(const Vector<T> &otro) const {
+T Vector<T>::punto(const Vector<T>& otro) const {
     return _x * otro.x() + _y * otro.y();
 }
 
 template <typename T>
-T Vector<T>::cruz(const Vector<T> &otro) const {
+T Vector<T>::cruz(const Vector<T>& otro) const {
     T a = _x * otro._y;
     T b = otro._x * _y;
     return a - b;
 }
 
 template <typename T>
-Vector<T> Vector<T>::operator+(const Vector<T> &otro) const {
+Vector<T> Vector<T>::operator+(const Vector<T>& otro) const {
     return Vector<T>(_x + otro.x(), _y + otro.y());
 }
 
 template <typename T>
-Vector<T> Vector<T>::operator-(const Vector<T> &otro) const {
+Vector<T> Vector<T>::operator-(const Vector<T>& otro) const {
     return Vector<T>(_x - otro.x(), _y - otro.y());
 }
 
@@ -62,44 +62,44 @@ Vector<T> Vector<T>::operator*(T val) const {
 }
 
 template <typename T>
-bool Vector<T>::operator==(const Vector<T> &otro) const {
+bool Vector<T>::operator==(const Vector<T>& otro) const {
     return _x == otro.x() && _y == otro.y();
 }
 
 template <typename T>
-bool Vector<T>::operator!=(const Vector<T> &otro) const {
+bool Vector<T>::operator!=(const Vector<T>& otro) const {
     return !operator==(otro);
 }
 
 template <typename T>
-bool Vector<T>::operator<(const Vector<T> &otro) const {
+bool Vector<T>::operator<(const Vector<T>& otro) const {
     return y() < otro.y() || (y() == otro.y() && x() < otro.x());
 }
 
 template <typename T>
-bool Vector<T>::operator<=(const Vector<T> &otro) const {
+bool Vector<T>::operator<=(const Vector<T>& otro) const {
     return y() < otro.y() || (y() == otro.y() && x() <= otro.x());
 }
 
 template <typename T>
-bool Vector<T>::operator>(const Vector<T> &otro) const {
+bool Vector<T>::operator>(const Vector<T>& otro) const {
     return y() > otro.y() || (y() == otro.y() && x() > otro.x());
 }
 
 template <typename T>
-bool Vector<T>::operator>=(const Vector<T> &otro) const {
+bool Vector<T>::operator>=(const Vector<T>& otro) const {
     return y() > otro.y() || (y() == otro.y() && x() >= otro.x());
 }
 
 template <typename T>
-std::ostream &operator<<(std::ostream &os, const Vector<T> &v) {
+std::ostream& operator<<(std::ostream& os, const Vector<T>& v) {
     return os << '(' << v.x() << ',' << v.y() << ')';
 }
 
-template std::ostream &operator<<(std::ostream &out, const Vector<int> &p);
-template std::ostream &operator<<(std::ostream &out, const Vector<long> &p);
-template std::ostream &operator<<(std::ostream &out, const Vector<float> &p);
-template std::ostream &operator<<(std::ostream &out, const Vector<double> &p);
+template std::ostream& operator<<(std::ostream& out, const Vector<int>& p);
+template std::ostream& operator<<(std::ostream& out, const Vector<long>& p);
+template std::ostream& operator<<(std::ostream& out, const Vector<float>& p);
+template std::ostream& operator<<(std::ostream& out, const Vector<double>& p);
 
 template class Vector<int>;
 template class Vector<long>;

@@ -8,23 +8,20 @@ project(geocomp_t2
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED OFF)
 set(CMAKE_EXPORT_COMPILE_COMMANDS TRUE)
-set(CMAKE_BUILD_TYPE Debug)
-set(CMAKE_CONFIGURATION_TYPES Debug)
-
+set(CMAKE_BUILD_TYPE Release)
+set(CMAKE_CONFIGURATION_TYPES Release)
 
 if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU" 
     OR CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
     add_compile_options(
         "-Wall"
         "-Wextra"
-        "-Werror"
         "-Wpedantic"
     )
 
 elseif (CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
     add_compile_options(
         "/W4" 
-        "/WX"
     )
 
 endif()

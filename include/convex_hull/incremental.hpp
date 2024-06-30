@@ -1,6 +1,6 @@
 
-#ifndef GC_GIFT_WRAPING_HPP
-#define GC_GIFT_WRAPING_HPP
+#ifndef GC_INCREMENTAL_HPP
+#define GC_INCREMENTAL_HPP
 
 #include <vector>
 
@@ -10,8 +10,8 @@
 namespace geocomp {
 
 template <typename T>
-Poligono<T> incremental(std::vector<Punto<T>> const &puntos);
+Poligono<T> incremental(const std::vector<Punto<T>>& puntos, bool presorted);
 
 } // namespace geocomp
 
-#endif // !GC_GIFT_WRAPING_HPP
+#endif // !GC_INCREMENTAL_HPP

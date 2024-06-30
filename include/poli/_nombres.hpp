@@ -1,5 +1,5 @@
-#ifndef GC_DECLARACIONES_HPP
-#define GC_DECLARACIONES_HPP
+#ifndef GC_NOMBRES_HPP
+#define GC_NOMBRES_HPP
 
 namespace geocomp {
 
@@ -14,4 +14,4 @@ class Poligono;
 
 } // namespace geocomp
 
-#endif // !GC_DECLARACIONES_HPP
+#endif // !GC_NOMBRES_HPP

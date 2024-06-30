@@ -11,7 +11,7 @@
 namespace geocomp {
 
 template <typename T>
-Poligono<T>::Poligono(std::vector<Punto<T>> const &v) {
+Poligono<T>::Poligono(const std::vector<Punto<T>>& v) {
     _vert = v;
     _num_vert = _vert.size();
 }
@@ -60,7 +60,7 @@ bool Poligono<T>::es_convexo() const {
 
     while (it2 != it_last) {
         T p_cruz = x1 * y2 - x2 * y1;
-        if (p_cruz * factor < 0) {
+        if (p_cruz * factor <= 0) {
             return false;
         }
 
@@ -77,22 +77,22 @@ bool Poligono<T>::es_convexo() const {
 }
 
 template <typename T>
-const Punto<T> &Poligono<T>::operator[](int i) const {
+const Punto<T>& Poligono<T>::operator[](int i) const {
     return _vert[i];
 }
 
 template <typename T>
-bool Poligono<T>::operator==(Poligono<T> const &otro) const {
+bool Poligono<T>::operator==(const Poligono<T>& otro) const {
     return _vert == otro._vert;
 }
 
 template <typename T>
-bool Poligono<T>::operator!=(Poligono<T> const &otro) const {
+bool Poligono<T>::operator!=(const Poligono<T>& otro) const {
     return _vert != otro._vert;
 }
 
 template <typename T>
-std::ostream &operator<<(std::ostream &out, Poligono<T> const &p) {
+std::ostream& operator<<(std::ostream& out, const Poligono<T>& p) {
     out << '[' << p._vert[0];
     for (int i = 1; i < p._num_vert; i++) {
         out << ',' << p._vert[i];
@@ -101,10 +101,10 @@ std::ostream &operator<<(std::ostream &out, Poligono<T> const &p) {
     return out;
 }
 
-template std::ostream &operator<<(std::ostream &out, Poligono<int> const &p);
-template std::ostream &operator<<(std::ostream &out, Poligono<long> const &p);
-template std::ostream &operator<<(std::ostream &out, Poligono<float> const &p);
-template std::ostream &operator<<(std::ostream &out, Poligono<double> const &p);
+template std::ostream& operator<<(std::ostream& out, const Poligono<int>& p);
+template std::ostream& operator<<(std::ostream& out, const Poligono<long>& p);
+template std::ostream& operator<<(std::ostream& out, const Poligono<float>& p);
+template std::ostream& operator<<(std::ostream& out, const Poligono<double>& p);
 
 template class Poligono<int>;
 template class Poligono<long>;
